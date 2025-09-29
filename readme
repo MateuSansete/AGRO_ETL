@@ -1,0 +1,81 @@
+# Projeto ETL de Rendimento Agrícola 🌾📊
+
+Este projeto implementa um **pipeline ETL** que processa dados de rendimento de safras agrícolas, com possibilidade de integração de dados climáticos, e carrega os resultados em um **banco de dados PostgreSQL**. O objetivo é permitir análises históricas e correlação entre rendimento e variáveis ambientais.
+
+---
+
+## 🔹 Tecnologias utilizadas
+
+- **Python 3** – pipeline e análises
+- **Pandas / NumPy** – manipulação de dados
+- **PostgreSQL** – banco relacional
+- **SQLAlchemy / psycopg2** – conexão Python ↔ PostgreSQL
+- **Docker / Docker Compose** – containerização do banco e serviços
+- **Jupyter Notebook** – análise exploratória e gráficos
+- **Matplotlib / Plotly** – visualização de dados
+- **Prefect / Airflow (opcional)** – orquestração de pipelines
+
+---
+
+## 🔹 Estrutura do projeto
+
+agriculture_yield_project/
+│── etl/
+│ └── etl_pipeline.py
+│── notebooks/
+│ └── analysis.ipynb
+│── docker-compose.yml
+│── schema.sql
+│── requirements.txt
+│── .env.example
+│── data/
+│ ├── raw/
+│ └── processed/
+│── README.md
+
+yaml
+Copiar código
+
+---
+
+## 🔹 Como rodar o projeto
+
+1. **Clone o repositório**
+```bash
+git clone https://github.com/seu-usuario/agriculture_yield_project.git
+cd agriculture_yield_project
+Crie e configure o ambiente
+
+bash
+Copiar código
+cp .env.example .env
+# edite se desejar usuário, senha ou porta do PostgreSQL
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+Subir os containers do Docker
+
+bash
+Copiar código
+docker-compose up -d
+docker-compose ps   # verificar se postgres e pgadmin subiram
+Executar ETL
+
+bash
+Copiar código
+python etl/etl_pipeline.py
+Analisar dados
+
+bash
+Copiar código
+jupyter notebook
+# abra notebooks/analysis.ipynb
+(Opcional) Acessar pgAdmin
+
+Acesse http://localhost:8080
+
+Login: admin@admin.com
+
+Senha: admin
+
+Conecte ao PostgreSQL (host=localhost, port=5432, user/pass do .env)

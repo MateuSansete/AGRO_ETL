@@ -1,0 +1,36 @@
+  version: '3.8'
+
+services:
+  # 1. Serviço do Banco de Dados PostgreSQL
+  postgres:
+    image: postgres:14-alpine
+    restart: always
+    ports:
+      - "5432:5432" # Porta local:porta container
+    environment:
+      POSTGRES_USER: seu_usuario
+      POSTGRES_PASSWORD: sua_senha
+      POSTGRES_DB: crypto_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data # Persistência de dados
+
+  # 2. Serviço para rodar o Jupyter Notebook e o ETL
+  #    Esta é a parte que exige a construção de uma imagem personalizada
+  etl_notebook:
+    build: . # Constrói a imagem a partir de um Dockerfile neste diretório
+    command: jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root
+    ports:
+      - "8888:8888" # Porta para acessar o Jupyter
+    volumes:
+      - .:/app # Mapeia o código local para dentro do container
+    depends_on:
+      - postgres # Garante que o DB inicie antes
+    environment:
+      # Variáveis de ambiente para o seu código Python se conectar ao DB
+      DB_HOST: postgres
+      DB_NAME: crypto_db
+      DB_USER: seu_usuario
+      DB_PASSWORD: sua_senha
+
+volumes:
+  postgres_data:
