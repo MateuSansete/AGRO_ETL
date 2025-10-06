@@ -1,10 +1,10 @@
-# Projeto ETL de Rendimento Agrícola 🌾📊
+# Projeto ETL de Rendimento Agrícola 
 
 Este projeto implementa um **pipeline ETL** que processa dados de rendimento de safras agrícolas, com possibilidade de integração de dados climáticos, e carrega os resultados em um **banco de dados PostgreSQL**. O objetivo é permitir análises históricas e correlação entre rendimento e variáveis ambientais.
 
 ---
 
-## 🔹 Tecnologias utilizadas
+## Tecnologias utilizadas
 
 - **Python 3** – pipeline e análises
 - **Pandas / NumPy** – manipulação de dados
@@ -17,7 +17,7 @@ Este projeto implementa um **pipeline ETL** que processa dados de rendimento de 
 
 ---
 
-## 🔹 Estrutura do projeto
+##  Estrutura do projeto
 
 agriculture_yield_project/
 │── etl/
