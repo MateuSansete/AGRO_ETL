@@ -19,22 +19,6 @@ Este projeto implementa um **pipeline ETL** que processa dados de rendimento de 
 
 ##  Estrutura do projeto
 
-agriculture_yield_project/
-│── etl/
-│ └── etl_pipeline.py
-│── notebooks/
-│ └── analysis.ipynb
-│── docker-compose.yml
-│── schema.sql
-│── requirements.txt
-│── .env.example
-│── data/
-│ ├── raw/
-│ └── processed/
-│── README.md
-
-yaml
-Copiar código
 
 ---
 
