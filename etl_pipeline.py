@@ -68,18 +68,19 @@ def extract_weather_data(locations):
     return pd.DataFrame(weather_data)
 
 # 3. Extract - (Opcional) Leitura de Rendimento Agrícola (CSV estático)
-def extract_yield_data(file_path='data/raw/yield_data.csv'):
-    """Lê CSV de rendimento agrícola (caminho padrão: data/raw/yield_data.csv)."""
+def extract_yield_data(file_path='/app/data/raw/yield_data.csv'): 
+    """Lê os dados de rendimento agrícola estático."""
+    print("Extraindo dados de rendimento agrícola...")
     try:
         df = pd.read_csv(file_path)
-        print(f"Rendimento extraído: {len(df)} registros.")
+        print(f"  -> Extração de Rendimento Agrícola concluída. {len(df)} registros.")
         return df
     except FileNotFoundError:
-        print("Arquivo yield_data.csv não encontrado. Retornando DataFrame vazio.")
-        return pd.DataFrame()
+        print(f"  -> ERRO CRÍTICO: Arquivo CSV não encontrado no caminho: {file_path}")
+        print("  -> Verifique se 'data/raw/yield_data.csv' existe no seu diretório local.")
+        return pd.DataFrame() # Retorna vazio, causando o KeyError que vimos
 
-
-# 4. Transform - Limpeza e Enriquecimento (O ponto chave)
+# 4. Transform - Limpeza e Enriquecimento 
 def transform_data(df_yield, df_weather):
     """Limpa e prepara os dados para carregamento.
 
@@ -88,11 +89,24 @@ def transform_data(df_yield, df_weather):
     """
     print("Transformando dados...")
 
+    # Se o DataFrame de rendimento estiver vazio, retorna sem transformação
+    if df_yield.empty:
+        print("  -> AVISO: Dados de rendimento vazios, pulando transformação.")
+        return df_yield, df_weather
+
+    # Verifica se as colunas necessárias existem
+    required_columns = ['yield_kg_ha', 'year']
+    missing_columns = [col for col in required_columns if col not in df_yield.columns]
+    if missing_columns:
+        print(f"  -> ERRO: Colunas ausentes no CSV: {missing_columns}")
+        print("  -> Colunas esperadas: crop, year, state, yield_kg_ha")
+        return pd.DataFrame(), df_weather
+
     # Limpeza: remove registros sem rendimento ou sem ano
     df_yield.dropna(subset=['yield_kg_ha', 'year'], inplace=True)
     df_yield['year'] = df_yield['year'].astype(int)
 
-    # Enriquecimento/merge: placeholder — fazer o cruzamento adequado conforme o modelo
+    # Enriquecimento/merge: placeholder, fazer o cruzamento adequado conforme o modelo
     # de domínio (safra, região, período) quando tiver os identificadores corretos.
 
     print(f"Transformação concluída. {len(df_yield)} linhas prontas para carga.")
@@ -123,7 +137,7 @@ def run_etl():
     # Transformação
     df_yield_transformed, df_weather_transformed = transform_data(df_yield_raw, df_weather_raw)
     
-    # Carregamento (Load)
+    # Carregamento
     # 1. Carrega dados de Rendimento (Tabela principal)
     load_data(df_yield_transformed, 'yield_records')
 
