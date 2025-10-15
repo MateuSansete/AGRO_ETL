@@ -37,79 +37,64 @@ AGRO_ETL/
 │── README.md
 ```
 
+---
 
+## 🚀 Como Rodar o Projeto
+
+### 🧩 Pré-requisitos
+Certifique-se de ter o **Docker Desktop** instalado, em execução, e o **Git** configurado.
 
 ---
 
-## Como rodar o projeto
-
-```bash
-### 1. Clone o repositório
-git clone https://github.com/MateuSansete/AGRO_ETL.git
-cd AGRO_ETL
-
-
-## 2. Crie e configure o ambiente
-
-- cp .env.example .env  # edite se desejar usuário, senha ou porta do PostgreSQL
-- python3 -m venv venv
-- source venv/bin/activate
-- pip install -r requirements.txt
-
-
-## 3. Suba os containers do Docker
-
- 
-docker-compose up -d
-docker-compose ps   
-
-### 1. Preparação e Credenciais
+### 1. 🛠️ Preparação e Credenciais
 Você deve criar o CSV de dados primários e obter a chave de API.
 
-1.  **Crie a estrutura `data/raw/`** e insira o arquivo `yield_data.csv` (com as colunas: `crop`, `year`, `state`, `yield_kg_ha`, etc.).
+1. **Crie a estrutura `data/raw/`** e insira o arquivo `yield_data.csv`  
+   (com as colunas: `crop`, `year`, `state`, `yield_kg_ha`, etc.).
 
-2.  **Obtenha uma Chave de API** gratuita na [OpenWeatherMap](https://openweathermap.org/api).
+2. **Obtenha uma Chave de API** gratuita na [OpenWeatherMap](https://openweathermap.org/api).
 
-3.  Copie o arquivo de exemplo e preencha as credenciais, incluindo sua `OPENWEATHER_API_KEY`:
+3. **Copie o arquivo de exemplo e preencha as credenciais**, incluindo sua `OPENWEATHER_API_KEY`:
 
-## 4. Execute o ETL
+```bash
+cp .env.example .env
+# Edite o arquivo .env com seus valores
+```
 
-python etl/etl_pipeline.py
+### 2. 🐳 Subindo a Infraestrutura (Docker Compose)
+Este comando constrói a imagem Python, baixa o PostgreSQL e inicia todos os containers em segundo plano.
 
-## 5. Analise os dados
+```bash
+docker-compose up -d
+```
 
-jupyter notebook
-Abra o arquivo notebooks/analysis.ipynb.
+### 3. 🔄 Executando o Pipeline ETL
+Com os containers ativos, execute o script Python.
+Ele irá ler o CSV, buscar dados na API (após a chave ser ativada) e carregar no PostgreSQL:
 
-## 6. (Opcional) Acesse o pgAdmin
+```bash
+docker exec agro_etl_runner python ETL_pipeline.py
+```
+
+### 4. 📊 Análise e Validação (Jupyter Notebook)
+Acesse o ambiente de análise para visualizar os dados e validar o pipeline.
+
+URL: http://localhost:8888
+
+Abra o arquivo `notebooks/analysis.ipynb` e execute as células de consulta/visualização.
+
+### 5. 🗄️ (Opcional) Acesso ao Data Warehouse (pgAdmin)
+Para inspecionar as tabelas carregadas:
+
 URL: http://localhost:8080
 
-Login: admin@admin.com
-
+Login: admin@admin.com  
 Senha: admin
 
-Conecte ao PostgreSQL com os dados do arquivo .env.
+Conecte-se ao servidor PostgreSQL usando as credenciais do seu arquivo `.env`.
 
+## 📈 Status do Projeto
+Funcional e em Desenvolvimento – A integração com a API está no lugar; o próximo passo é a Orquestração (Airflow/Prefect).
 
-
-<!--
-# Exemplos e Templates
-
-##  Exemplo de Visualização
-Após rodar o notebook, é possível gerar gráficos como este:
-[Seu gráfico aqui]
-
-## ℹ Status do Projeto
-- Em desenvolvimento – contribuições são bem-vindas.
-
-##  Autor
-Feito por Mateus Bastos [@MateuSansete](https://github.com/MateuSansete)
--->
-
-
-
-
-
-
-
-
+## 👨‍💻 Autor
+Mateus Bastos [@MateuSansete](https://github.com/MateuSansete)

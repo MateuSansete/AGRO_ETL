@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  # 1. Serviço do Banco de Dados PostgreSQL
+  postgres:
+    image: postgres:14-alpine
+    container_name: agro_postgres # Nome do container para referência
+    restart: always
+    ports:
+      - "${POSTGRES_PORT}:5432" # Usa a variável do .env (ex: 5432:5432)
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB} # Ajustado para usar a variável do .env (ex: 'agri_db')
+    volumes:
+      - postgres_data:/var/lib/postgresql/data # Persistência de dados
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql # Garante que as tabelas sejam criadas
+
+  # 2. serviço pgAdmin 
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: agro_pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8080:80"
+    depends_on:
+      - postgres
+
+  # 3. serviço para rodar o Jupyter  e o ETL
+  etl_runner: 
+    build: . 
+    container_name: agro_etl_runner
+    # Para o ETL rodar uma única vez:
+    # command: python etl/etl_pipeline.py 
+    
+    command: jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root
+    ports:
+      - "8888:8888" # Porta para acessar o Jupyter
+    volumes:
+      - .:/app # Mapeia o código local para dentro do container
+    depends_on:
+      - postgres # Garante que o DB inicie antes
+    environment:
+      # Variáveis de ambiente LENDO do .env
+      POSTGRES_HOST: postgres # Nome do serviço do Docker Compose
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_PORT: 5432 # A porta interna do container Postgres
+
+volumes:
+  postgres_data:
