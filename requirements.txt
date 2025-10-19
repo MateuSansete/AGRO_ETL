@@ -1,13 +1,18 @@
 # Python Libraries
 pandas
 numpy
+
 # Database Connector
 psycopg2-binary 
 sqlalchemy
+
 # Data Visualization / Notebook
 matplotlib
 jupyter
+seaborn
+
 # Environment Variables
 python-dotenv 
-# For API Integration (Próxima etapa!)
+
+# For API Integration
 requests

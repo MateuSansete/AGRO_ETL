@@ -1,0 +1,36 @@
+# Arquivos e diretórios do sistema
+.DS_Store
+.Trash*
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# Ambiente virtual
+venv/
+ENV/
+
+# Arquivos de ambiente
+.env
+
+# Arquivos de IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Diretório de dados (exceto exemplos)
+data/raw/*.csv
+!data/raw/*.csv.example
+
+# Git
+.git/
+.gitignore
+
+# Logs
+*.log
+
+# Dados do PostgreSQL
+postgres_data/
