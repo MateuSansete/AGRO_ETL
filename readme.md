@@ -92,18 +92,17 @@ Conecte ao PostgreSQL com os dados do arquivo .env.
 
 
 
-<!--
-# Exemplos e Templates
+
 
 ##  Exemplo de Visualização
 Após rodar o notebook, é possível gerar gráficos como este:
 [Seu gráfico aqui]
 
-## ℹ Status do Projeto
-- Em desenvolvimento – contribuições são bem-vindas.
+## Status do Projeto
+- Em desenvolvimento – 
 
 ##  Autor
-Feito por Mateus Bastos [@MateuSansete](https://github.com/MateuSansete)
+ [@MateuSansete](https://github.com/MateuSansete)
 -->
 
 
