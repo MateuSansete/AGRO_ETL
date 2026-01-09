@@ -96,7 +96,7 @@ Conecte ao PostgreSQL com os dados do arquivo .env.
 
 ##  Exemplo de Visualização
 Após rodar o notebook, é possível gerar gráficos como este:
-[Seu gráfico aqui]
+
 
 ## Status do Projeto
 - Em desenvolvimento – 
